@@ -21,13 +21,13 @@ public class SignUpTest {
 
         if (osName.contains("Mac")) {
             System.setProperty("webdriver.chrome.driver"
-                    , "/Users/dzb/IdeaProjects/selenidecourse/drivers/chromedriver");
+                    , "/Users/dzb/IdeaProjects/selenidecourse01/drivers/chromedriver");
 
             System.setProperty("selenium.browser", "Chrome");
 
         } else if (osName.contains("Win")) {
             System.setProperty("phantomjs.binary.path"
-                    , "C:\\Users\\Dmitry B\\IdeaProjects\\testselenium\\drivers\\chromedriver.exe");
+                    , "C:\\Users\\Dmitry B\\IdeaProjects\\selenidecourse01\\drivers\\chromedriver.exe");
 
             System.setProperty("selenium.browser", "Chrome");
 
