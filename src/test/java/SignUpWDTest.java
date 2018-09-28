@@ -1,19 +1,21 @@
 //spotify.com Sign Up page
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import pages.SignUpPageWD;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.codeborne.selenide.Configuration.baseUrl;
-import static com.codeborne.selenide.Configuration.browser;
-import static com.
+public class SignUpWDTest {
+    private WebDriver driver;
+    private SignUpPageWD page;
 
-public class SignUpTest {
-    private SignUpPage page;
-
-    @BeforeClass
+    @Before
     public void setUp() {
         String osName = System.getProperty("os.name");
 
@@ -35,14 +37,20 @@ public class SignUpTest {
             System.out.println("Add any drivers for browsers for your OS");
         }
 
-        baseUrl = "https://www.spotify.com/int/signup/";
-        browser = "chrome";
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
 
+
+        driver.get("https://www.spotify.com/int/signup/");
+
+        //mainPage = new MainPage(driver);
+        page = PageFactory.initElements(driver, SignUpPageWD.class);
     }
 
     @Test
     public void typeInvalidYear() {
-        //page = new SignUpPageWD(driver);
+        page = new SignUpPageWD(driver);
         page.setMonth("December")
                 .typeDay("20")
                 .typeYear("85")
@@ -53,7 +61,7 @@ public class SignUpTest {
 
     @Test
     public void typeInvalidEmail() {
-        //page = new SignUpPageWD(driver);
+        page = new SignUpPageWD(driver);
         page.typeEmail("aaa@aaa.by")
                 .typeConfirmEmail("bbb@bbb.by")
                 .typeName("NameTest")
@@ -64,7 +72,7 @@ public class SignUpTest {
 
     @Test
     public void signUpWithEmptyPassword() {
-        //page = new SignUpPageWD(driver);
+        page = new SignUpPageWD(driver);
         page.typeEmail("aaa@aaa.by")
                 .typeConfirmEmail("aaa@aaa.by")
                 .typeName("TestName")
@@ -74,7 +82,7 @@ public class SignUpTest {
 
     @Test
     public void typeInvalidValues() {
-        //page = new SignUpPageWD(driver);
+        page = new SignUpPageWD(driver);
         page.typeName("TestName")
                 .typeEmail("aaa@")
                 .typeConfirmEmail("aaa@a.by")
@@ -87,5 +95,10 @@ public class SignUpTest {
         Assert.assertEquals(6, page.getErrors().size());
         Assert.assertEquals("Please enter your birth month.", page.getErrorByNumber(3));
 
+    }
+
+    @After
+    public void tearDown() {
+        driver.quit();
     }
 }
