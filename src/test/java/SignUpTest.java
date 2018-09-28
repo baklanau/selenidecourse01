@@ -1,20 +1,25 @@
 //spotify.com Sign Up page
 
+import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Condition;
 import org.junit.*;
 import org.openqa.selenium.support.PageFactory;
-import pages.SignUpPageWD;
+import pages.SignUpPage;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.Condition.not;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Configuration.baseUrl;
 import static com.codeborne.selenide.Configuration.browser;
-import static com.
 
 public class SignUpTest {
     private SignUpPage page;
 
     @BeforeClass
-    public void setUp() {
+    public static void setUp() {
         String osName = System.getProperty("os.name");
 
         System.out.println(osName);
@@ -35,47 +40,61 @@ public class SignUpTest {
             System.out.println("Add any drivers for browsers for your OS");
         }
 
-        baseUrl = "https://www.spotify.com/int/signup/";
+        baseUrl = "https://www.spotify.com/int/signup";
         browser = "chrome";
+        //browser = "marionette"; //for FF(or "gecko")
 
     }
 
     @Test
     public void typeInvalidYear() {
-        //page = new SignUpPageWD(driver);
-        page.setMonth("December")
+        page = new SignUpPage();
+        page.open()
+                .setMonth("December")
                 .typeDay("20")
                 .typeYear("85")
                 .setShare(true);
-        Assert.assertTrue(page.isErrorVisible("Please enter a valid year."));
-        Assert.assertFalse(page.isErrorVisible("When were you born?"));
+
+        page.getError("Please enter a valid year.").shouldBe(visible);
+        page.getError("When were you born?").shouldBe(not(visible));
+        page.getError("When were you born?").shouldNotBe(visible);
+
+//        Assert.assertTrue(page.isErrorVisible("Please enter a valid year."));
+//        Assert.assertFalse(page.isErrorVisible("When were you born?"));
     }
 
     @Test
     public void typeInvalidEmail() {
-        //page = new SignUpPageWD(driver);
-        page.typeEmail("aaa@aaa.by")
+        page = new SignUpPage();
+        page.open()
+                .typeEmail("aaa@aaa.by")
                 .typeConfirmEmail("bbb@bbb.by")
                 .typeName("NameTest")
                 .clickSignUpButton();
 
-        Assert.assertTrue(page.isErrorVisible("Email address doesn't match."));
+        page.getError("Email address doesn't match.").shouldBe(visible);
+
+//        Assert.assertTrue(page.isErrorVisible("Email address doesn't match."));
     }
 
     @Test
     public void signUpWithEmptyPassword() {
-        //page = new SignUpPageWD(driver);
-        page.typeEmail("aaa@aaa.by")
+        page = new SignUpPage();
+        page.open()
+                .typeEmail("aaa@aaa.by")
                 .typeConfirmEmail("aaa@aaa.by")
                 .typeName("TestName")
                 .clickSignUpButton();
-        Assert.assertTrue(page.isErrorVisible("Please choose a password."));
+
+        page.getError("Please choose a password.").shouldBe(visible);
+        //Assert.assertTrue(page.isErrorVisible("Please choose a password."));
     }
 
     @Test
     public void typeInvalidValues() {
-        //page = new SignUpPageWD(driver);
-        page.typeName("TestName")
+        page = new SignUpPage();
+        page.open()
+                .typeName("TestName")
                 .typeEmail("aaa@")
                 .typeConfirmEmail("aaa@a.by")
                 .typePassword("qqqqqqqqq")
@@ -83,9 +102,11 @@ public class SignUpTest {
                 .setShare(false)
                 .clickSignUpButton();
 
+        page.getErrors().shouldHave(size(6));
+        page.getErrorByNumber(3).shouldHave(text("Please enter your birth month."));
 
-        Assert.assertEquals(6, page.getErrors().size());
-        Assert.assertEquals("Please enter your birth month.", page.getErrorByNumber(3));
+        //Assert.assertEquals(6, page.getErrors().size());
+        //Assert.assertEquals("Please enter your birth month.", page.getErrorByNumber(3));
 
     }
 }

@@ -2,6 +2,7 @@ package pages;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -24,8 +25,7 @@ public class SignUpPage {
     private String monthDropDownOption = "//select/option[text()='%s']";
     private By dayField = By.cssSelector("input#register-dob-day");
     private By yearField = By.cssSelector("input#register-dob-year");
-    //private String sexRadioButton = "//li[@id='li-gender']/label[normalize-space()='%s']/input";
-    private By sexRadioButton = By.cssSelector("li#li-gender");
+    private String sexRadioButton = "//li[@id='li-gender']/label[normalize-space()='%s']/input";
     private By shareCheckBox = By.cssSelector("input#register-thirdparty");
     private By registerButton = By.cssSelector("a#register-button-email-submit");
     private By errorLabel = xpath("//label[@class='has-error' and string-length(text())>0]");
@@ -72,7 +72,7 @@ public class SignUpPage {
     }
 
     public SignUpPage setSex(String value) {
-        $(sexRadioButton).selectRadio(value);
+        $(xpath(format(sexRadioButton, value))).click();
         return this;
     }
 
@@ -89,11 +89,15 @@ public class SignUpPage {
         return $$(errorLabel);
     }
 
-    public String getErrorByNumber(int number) {
-        return getErrors().get(number - 1).text();
+    public SelenideElement getErrorByNumber(int number) {
+        return getErrors().get(number - 1);
     }
 
-    public boolean isErrorVisible(String message) {
-        return $(xpath(format(errorByText, message))).isDisplayed();
+//    public boolean isErrorVisible(String message) {
+//        return $(xpath(format(errorByText, message))).isDisplayed();
+//    }
+
+    public SelenideElement getError(String message) {
+        return $(xpath(format(errorByText, message)));
     }
 }
