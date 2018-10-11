@@ -1,4 +1,4 @@
-//spotify.com Sign Up page
+package testpackage;//spotify.com Sign Up page
 
 import org.junit.After;
 import org.junit.Assert;
@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
-import pages.SignUpPageWD;
+import testpackage.pages.SignUpPageWD;
 
 import java.util.concurrent.TimeUnit;
 
@@ -94,7 +94,6 @@ public class SignUpWDTest {
 
         Assert.assertEquals(6, page.getErrors().size());
         Assert.assertEquals("Please enter your birth month.", page.getErrorByNumber(3));
-
     }
 
     @After

@@ -1,4 +1,4 @@
-package pages;
+package testpackage.pages;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
@@ -11,7 +11,7 @@ import static java.lang.String.format;
 import static org.openqa.selenium.By.xpath;
 
 
-public class SignUpPage {
+public class SignUpPageSelenide {
 
     private By emailField = By.cssSelector("input#register-email");
     //private  By emailField = By.xpath("//input[@id='register-email']");
@@ -31,52 +31,52 @@ public class SignUpPage {
     private By errorLabel = xpath("//label[@class='has-error' and string-length(text())>0]");
     private String errorByText = "//label[@class='has-error' and contains(text(), \"%s\")]";
 
-    public SignUpPage open() {
+    public SignUpPageSelenide open() {
         Selenide.open("/");
         return this;
     }
 
-    public SignUpPage typeEmail(String email) {
+    public SignUpPageSelenide typeEmail(String email) {
         $(emailField).val(email);
         return this;
     }
 
-    public SignUpPage typeConfirmEmail(String email) {
+    public SignUpPageSelenide typeConfirmEmail(String email) {
         $(confirmEmailField).setValue(email);
         return this;
     }
 
-    public SignUpPage typePassword(String password) {
+    public SignUpPageSelenide typePassword(String password) {
         $(passField).setValue(password);
         return this;
     }
 
-    public SignUpPage typeName(String name) {
+    public SignUpPageSelenide typeName(String name) {
         $(nameField).val(name);
         return this;
     }
 
-    public SignUpPage setMonth(String month) {
+    public SignUpPageSelenide setMonth(String month) {
         $(monthDropDown).selectOption(month);
         return this;
     }
 
-    public SignUpPage typeDay(String day) {
+    public SignUpPageSelenide typeDay(String day) {
         $(dayField).setValue(day);
         return this;
     }
 
-    public SignUpPage typeYear(String year) {
+    public SignUpPageSelenide typeYear(String year) {
         $(yearField).setValue(year);
         return this;
     }
 
-    public SignUpPage setSex(String value) {
+    public SignUpPageSelenide setSex(String value) {
         $(xpath(format(sexRadioButton, value))).click();
         return this;
     }
 
-    public SignUpPage setShare(boolean value) {
+    public SignUpPageSelenide setShare(boolean value) {
         $(shareCheckBox).setSelected(value);
         return this;
     }

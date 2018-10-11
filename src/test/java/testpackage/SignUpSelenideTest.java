@@ -1,12 +1,8 @@
-//spotify.com Sign Up page
+package testpackage;//spotify.com Sign Up page
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
+
 import org.junit.*;
-import org.openqa.selenium.support.PageFactory;
-import pages.SignUpPage;
-
-import java.util.concurrent.TimeUnit;
+import testpackage.pages.SignUpPageSelenide;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.not;
@@ -15,8 +11,8 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Configuration.baseUrl;
 import static com.codeborne.selenide.Configuration.browser;
 
-public class SignUpTest {
-    private SignUpPage page;
+public class SignUpSelenideTest {
+    private SignUpPageSelenide page;
 
     @BeforeClass
     public static void setUp() {
@@ -48,7 +44,7 @@ public class SignUpTest {
 
     @Test
     public void typeInvalidYear() {
-        page = new SignUpPage();
+        page = new SignUpPageSelenide();
         page.open()
                 .setMonth("December")
                 .typeDay("20")
@@ -65,7 +61,7 @@ public class SignUpTest {
 
     @Test
     public void typeInvalidEmail() {
-        page = new SignUpPage();
+        page = new SignUpPageSelenide();
         page.open()
                 .typeEmail("aaa@aaa.by")
                 .typeConfirmEmail("bbb@bbb.by")
@@ -79,7 +75,7 @@ public class SignUpTest {
 
     @Test
     public void signUpWithEmptyPassword() {
-        page = new SignUpPage();
+        page = new SignUpPageSelenide();
         page.open()
                 .typeEmail("aaa@aaa.by")
                 .typeConfirmEmail("aaa@aaa.by")
@@ -92,7 +88,7 @@ public class SignUpTest {
 
     @Test
     public void typeInvalidValues() {
-        page = new SignUpPage();
+        page = new SignUpPageSelenide();
         page.open()
                 .typeName("TestName")
                 .typeEmail("aaa@")
